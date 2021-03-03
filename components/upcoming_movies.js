@@ -1,49 +1,78 @@
 import React, { useRef } from 'react';
-import { View, Animated, FlatList, Dimensions, StyleSheet, Image } from 'react-native';
+import { View, Animated, FlatList, Dimensions, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 const UPCOMING_WIDTH = width * 0.70;
-const IMAGE_URL = 'https://image.tmdb.org/t/p/w300'
+const IMAGE_URL = 'https://image.tmdb.org/t/p/w300';
 
 
-const upcoming_movies = ({upcomingMovies}) => {
+
+
+const upcoming_movies = ({upcomingMovies, get_detail_movie}) => {
 
     const ScrollX = useRef(new Animated.Value(0)).current;
 
     return (
-        <Animated.FlatList 
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            snapToInterval={UPCOMING_WIDTH + (width * 0.05)}
-            onScroll={Animated.event([{nativeEvent: { contentOffset: { x: ScrollX}}}],
-                {useNativeDriver: true})}
-            // pagingEnabled
-            decelerationRate={0}
-            style={{flexGrow: 0}}
-            data={upcomingMovies.slice(0, 5)}
-            renderItem={item => item.id}
-            renderItem={({item, index}) => {
+        <>
+            <Animated.FlatList 
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                snapToInterval={UPCOMING_WIDTH + (width * 0.05)}
+                onScroll={Animated.event([{nativeEvent: { contentOffset: { x: ScrollX}}}],
+                    {useNativeDriver: true})}
+                // pagingEnabled
+                decelerationRate={0}
+                style={{flexGrow: 0}}
+                data={upcomingMovies.slice(3, 8)}
+                renderItem={item => item.id.toSting()}
+                renderItem={({item, index}) => {
 
+                    const inputRange = [
+                        (index -1) * UPCOMING_WIDTH,
+                        index * UPCOMING_WIDTH,
+                        (index + 1) * UPCOMING_WIDTH,
+                    ]
+
+                    const scale = ScrollX.interpolate({
+                        inputRange,
+                        outputRange: [0.85, 1, 0.85]
+                    })
+
+                    return (
+                        <TouchableOpacity onPress={() => get_detail_movie(item.id)} styles={{width: UPCOMING_WIDTH, }}>
+                            <Animated.View style={{...styles.upcomingContainer, transform: [{scale}]}}>
+                                <Image style={styles.image} source={{uri: IMAGE_URL + item.poster_path}} />
+                            </Animated.View>
+                        </TouchableOpacity>
+                    );
+                }}
+            />
+
+            {/* <View style={{}}>
+            {upcomingMovies.map((el, index) => {
                 const inputRange = [
-                    (index -1) * UPCOMING_WIDTH,
-                    index * UPCOMING_WIDTH,
-                    (index + 1) * UPCOMING_WIDTH,
+                    (index -1) * width,
+                    (index * width) + (width * 0.5),
+                    (index + 1) * width,
                 ]
 
-                const scale = ScrollX.interpolate({
+                const opacity = ScrollX.interpolate({
                     inputRange,
-                    outputRange: [0.85, 1, 0.85]
+                    outputRange: [.2, 1, .2]
                 })
 
+                const translateY = ScrollX.interpolate({
+                    inputRange,
+                    outputRange: [20, 0, 20]
+                })
                 return (
-                    <View styles={{width: UPCOMING_WIDTH, }}>
-                        <Animated.View style={{...styles.upcomingContainer, transform: [{scale}]}}>
-                            <Image style={styles.image} source={{uri: IMAGE_URL + item.poster_path}} />
-                        </Animated.View>
+                    <View  style={{ width}}>
+                        <Animated.Text style={{...styles.animatedTitle, position: 'absolute', opacity}}>{el.title}</Animated.Text>
                     </View>
                 );
-            }}
-        />
+            })}
+            </View> */}
+        </>
     );
 }
 

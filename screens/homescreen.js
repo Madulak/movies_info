@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Dimensions, Animated, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Animated, FlatList, TouchableOpacity } from 'react-native';
+
 import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import * as movieActions from '../store/actions';
 import { colors } from '../config';
@@ -13,7 +15,7 @@ const { width, height } = Dimensions.get('window');
 const UPCOMING_WIDTH = width * 0.70;
 const IMAGE_URL = 'https://image.tmdb.org/t/p/w300'
 
-const homescreen = () => {
+const homescreen = ({navigation}) => {
 
     const dispatch = useDispatch();
     const upcomingMovies = useSelector(state => state.movies.upcomingMovies);
@@ -23,46 +25,65 @@ const homescreen = () => {
         dispatch(movieActions.get_upcoming_movies())
     },[])
 
+    const get_detail_movie = (id) => {
+        navigation.navigate('movie detail', { id: id})
+    }
+
     return (
         <>
             {upcomingMovies ? 
-                <LinearGradient 
-                    style={styles.container}
-                    colors={[colors.lightGrey, colors.darkGrey]}
-                >
-                    <View style={styles.searchContainer}>
-                        <View>
-                            <Text style={styles.movieText}>Movies</Text>
-                        </View>
-                        <View>
-                            <AntDesign name="search1" size={24} color={colors.black} />
-                        </View>
-                    </View>
+                
         
                     <FlatList
                         listKey='1'
                         ListHeaderComponent={
+                            
                             <>
+
+                            <LinearGradient 
+                                style={styles.container}
+                                colors={[colors.lightGrey, colors.darkGrey]}
+                            >
+                                <View style={styles.topContent}>
+                                    <View style={styles.searchContainer}>
+                                        <View>
+                                            <Text style={styles.movieText}>Movies</Text>
+                                        </View>
+                                        <TouchableOpacity onPress={() => navigation.navigate('search')}>
+                                            <AntDesign sty={styles.icon} name="search1" size={24} color={colors.black} />
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    
+                                </View>
                                 <View>
-                                    <Text style={styles.nowplayingText}>Now Playing</Text>
+                                    <Text style={styles.nowplayingText}>Recomendation</Text>
                                 </View>
                     
-                                <Upcoming_Movies upcomingMovies={upcomingMovies} />
-                                <Text>
-                                    Hellog
-                                </Text>
+                                <Upcoming_Movies get_detail_movie={get_detail_movie} upcomingMovies={upcomingMovies} />
+                                
 
-                                <View>
-                                    <Text>Popular</Text>
+                                <View style={styles.popularContainer}>
+                                    <Text style={styles.popularText}>Popular</Text>
                                 </View>
                                 
                                 <View style={{paddingVertical: 20,}}>
-                                    <Popular upcomingMovies={upcomingMovies} />
+                                    <Popular get_detail_movie={get_detail_movie} upcomingMovies={upcomingMovies} />
                                 </View>
+
+                                <View style={styles.popularContainer}>
+                                    <Text style={styles.popularText}>Action</Text>
+                                </View>
+                                
+                                <View style={{paddingVertical: 20,}}>
+                                    <Popular get_detail_movie={get_detail_movie} upcomingMovies={upcomingMovies} />
+                                </View>
+
+                                </LinearGradient>
                             </>
                         }
                     />
-                </LinearGradient> :
+                 :
                 <Modal />
             }
         </>
@@ -74,6 +95,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.darkGrey,
         paddingTop: height * 0.04,
+    },
+    topContent: {
+        
     },
     searchContainer: {
         flexDirection: 'row',
@@ -90,8 +114,21 @@ const styles = StyleSheet.create({
         fontSize: 32,
         fontWeight: 'bold',
         paddingHorizontal: 10,
+        color: colors.darkGrey,
     },
     
+    animatedTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    popularContainer: {
+        padding: 10,
+    },
+    popularText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: colors.lightGrey,
+    }
 })
 
 export default homescreen;

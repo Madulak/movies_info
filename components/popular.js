@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, Text, Dimensions, FlatList, Image } from 'react-native';
+import { View, StyleSheet, Text, Dimensions, FlatList, Image, TouchableOpacity } from 'react-native';
 import { colors, IMAGE_BASE_URL } from '../config';
+import { MaterialIcons } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 
 
-const popular = ({upcomingMovies}) => {
+const popular = ({upcomingMovies, get_detail_movie}) => {
 
     const daete = (data) => {
         // console.log('{}[]{}',data.split('-')[0])
@@ -14,12 +15,17 @@ const popular = ({upcomingMovies}) => {
     return (
         <FlatList
             horizontal
-            keyExtractor={item => item.id}
-            data={upcomingMovies.slice(15, 19)}
+            listKey='4'
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.id.toString()}
+            data={upcomingMovies.slice(7, 12)}
+            // snapToInterval={(width * 0.55) + (width * 0.05)}
+            // bounces={false}
+            // decelerationRate={0}
             contentContainerStyle={{paddingTop: 40}}
             renderItem={({item}) => {
                 return (
-                    <View style={styles.itemContainer}>
+                    <TouchableOpacity onPress={() => get_detail_movie(item.id)} style={styles.itemContainer}>
                         <View style={styles.imageContainer}>
                             <Image style={styles.image} source={{uri: IMAGE_BASE_URL + item.poster_path}} />
                         </View>
@@ -29,11 +35,14 @@ const popular = ({upcomingMovies}) => {
                                 <Text numberOfLines={1} ellipsizeMode='tail' style={styles.titleText}>{item.title}</Text>
                             </View>
                             <View style={styles.ratingContainer}>
-                                <Text>{daete(item.release_date)}</Text>
-                                <Text>{item.vote_average}</Text>
+                                <Text>{new Date(item.release_date).getFullYear()}</Text>
+                                <View style={styles.rateContent}>
+                                    <MaterialIcons name="star-rate" size={14} color={colors.yellow} />
+                                    <Text style={styles.ratingText}>{item.vote_average}</Text>
+                                </View>
                             </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 );
             }}
         />
@@ -51,7 +60,7 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         position: 'absolute',
-        width: '80%',
+        width: '100%',
         height: '100%',
         top: -50,
         left: 10,
@@ -68,6 +77,7 @@ const styles = StyleSheet.create({
     contentContainer: {
         bottom: 0,
         flex: 0.4,
+        justifyContent: 'space-evenly',
         // backgroundColor: 'black',
     },
     titleText: {
@@ -79,6 +89,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
+    },
+    ratingText: {
+        color: colors.yellow,
+        fontSize: 18,
+    },
+    rateContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
     }
 })
 
