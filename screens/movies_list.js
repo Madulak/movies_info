@@ -1,9 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Dimensions, FlatList, TouchableOpacity, Image, Text } from 'react-native';
 
 import NoImage from '../components/no_image_found';
 import { IMAGE_BASE_URL, colors } from '../config';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import FoundSearch from '../components/found_search';
+
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { useSelector } from 'react-redux';
 const { width, height } = Dimensions.get('window');
@@ -21,38 +26,17 @@ const movies_list = ({navigation,}) => {
             style={{...styles.container}}
             colors={[colors.lightGrey, colors.darkGrey]}
         >  
-            <FlatList
-                listKey='9'
-                data={movies}
-                keyExtractor={item => item.id.toString()}
-                renderItem={({item}) => {
-                    return (
-                        <TouchableOpacity onPress={() => get_detail_movie(item.id)} style={styles.movieContainer}>
-                            <View style={styles.imageContainer}>
-                                {item.poster_path ?<Image style={styles.image} source={{uri: IMAGE_BASE_URL + item.poster_path }} />: <NoImage />}
-                            </View>
-                            <View style={{flex: 1, flexDirection: 'row'}}>
-                                <View style={{flex: 0.45,}} />
-                                <View style={{flex: 0.55, padding: 10, justifyContent: 'space-evenly'}}>
-                                    <View>
-                                        <Text numberOfLines={3} ellipsizeMode='tail' style={styles.titleText}>
-                                            {item.title}
-                                        </Text>
-                                    </View>
+            <View style={styles.topButtons}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconContainer}>
+                    <Ionicons name="arrow-back" size={24} color="black" />
+                </TouchableOpacity>
 
-                                    <View style={styles.ratingContainer}>
-                                        <Text>{new Date(item.release_date).getFullYear()}</Text>
-                                        <View style={styles.rateContent}>
-                                            <MaterialIcons name="star-rate" size={14} color={colors.yellow} />
-                                            <Text style={styles.ratingText}>{item.vote_average}</Text>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    );
-                }}
-            />
+                <TouchableOpacity style={styles.iconContainer}>
+                    <Entypo name="dots-three-horizontal" size={24} color="black" />
+                </TouchableOpacity>
+            </View>
+
+            <FoundSearch movies={movies} get_detail_movie={get_detail_movie} />
         </LinearGradient>
     );
 }
@@ -60,53 +44,20 @@ const movies_list = ({navigation,}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingTop: 20,
     },
-    movieContainer: {
-        width: width * 0.90,
-        height: height * 0.25,
-        marginVertical: 25,
-        backgroundColor: colors.lightGrey,
-        alignSelf: 'center',
-        borderRadius: 10,
-        padding: 10,
-    },
-    imageContainer: {
-        width: '45%',
-        height: '120%',
-        position: 'absolute',
-        top: - height * 0.04,
-        left: height * 0.02,
-        borderWidth: 2,
-        borderColor: colors.white,
-        borderRadius: 10,
-        overflow: 'hidden',
-    },
-    image: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
-        borderRadius: 10,
-    },
-    titleText: {
-        color: colors.darkGrey,
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginLeft: 5,
-    },
-    ratingContainer: {
+    topButtons: {
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        flexDirection: 'row',
+        padding: 10,
+        marginTop: 10,
     },
-    ratingText: {
-        color: colors.yellow,
-        fontSize: 18,
+    iconContainer: {
+        padding: 5,
+        borderRadius: 25,
+        backgroundColor: colors.lightGrey,
     },
-    rateContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: 5,
-    }
 })
 
 export default movies_list;

@@ -29,6 +29,10 @@ const homescreen = ({navigation}) => {
         navigation.navigate('movie detail', { id: id})
     }
 
+    const get_list_of_movies = () => {
+        navigation.navigate('list');
+    }
+
     return (
         <>
             {upcomingMovies ? 
@@ -58,6 +62,7 @@ const homescreen = ({navigation}) => {
                                 </View>
                                 <View>
                                     <Text style={styles.nowplayingText}>Recomendation</Text>
+                                    
                                 </View>
                     
                                 <Upcoming_Movies get_detail_movie={get_detail_movie} upcomingMovies={upcomingMovies} />
@@ -65,6 +70,9 @@ const homescreen = ({navigation}) => {
 
                                 <View style={styles.popularContainer}>
                                     <Text style={styles.popularText}>Popular</Text>
+                                    <TouchableOpacity onPress={get_list_of_movies}>
+                                        <Text>See More</Text>
+                                    </TouchableOpacity>
                                 </View>
                                 
                                 <View style={{paddingVertical: 20,}}>
@@ -123,6 +131,9 @@ const styles = StyleSheet.create({
     },
     popularContainer: {
         padding: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     popularText: {
         fontSize: 24,

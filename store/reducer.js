@@ -1,10 +1,11 @@
-import { GET_DETAIL_MOVIE, GET_SEARCH, GET_TRAILER, GET_UPCOMING_MOVIES } from "./actions";
+import { GET_CREDIT, GET_DETAIL_MOVIE, GET_SEARCH, GET_TRAILER, GET_UPCOMING_MOVIES } from "./actions";
 
 const initialState = {
     upcomingMovies: null,
     single_movie: null,
     trailer: null,
-    search_movies: null
+    search_movies: null,
+    cast: null,
 }
 
 const Reducer = (state = initialState, action) => {
@@ -33,6 +34,12 @@ const Reducer = (state = initialState, action) => {
             return {
                 ...state,
                 search_movies: action.search_movies,
+            }
+
+        case GET_CREDIT:
+            return {
+                ...state,
+                cast: action.cast
             }
 
         default:

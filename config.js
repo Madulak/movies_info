@@ -1,6 +1,7 @@
 
 export const api = '0ce3f1e2d7dcac36ca9b725dbf91075b';
 export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w300';
+export const PROFILE_IMAGE = 'https://image.tmdb.org/t/p/w100';
 export const BASE_URL = 'https://api.themoviedb.org/3';
 
 export const colors = {

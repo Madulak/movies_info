@@ -36,10 +36,10 @@ const search = ({navigation}) => {
     }
 
     return (
-        <View style={styles.container}>
+        
         
                 <LinearGradient 
-                    style={{minHeight: height + height * 0.10}}
+                    style={{...styles.container}}
                     colors={[colors.lightGrey, colors.darkGrey]}
                 >   
                     <View style={styles.topButtons}>
@@ -67,9 +67,6 @@ const search = ({navigation}) => {
                     
                 </LinearGradient>
             
-
-        
-        </View>
     );
 }
 
