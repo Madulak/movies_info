@@ -5,15 +5,13 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import * as movieActions from '../store/actions';
-import { colors } from '../config';
+import { colors, favouriteMovies } from '../config';
 import { LinearGradient } from 'expo-linear-gradient';
 import Modal from './modal';
 import Upcoming_Movies from '../components/upcoming_movies';
 import Popular from '../components/popular';
 
 const { width, height } = Dimensions.get('window');
-const UPCOMING_WIDTH = width * 0.70;
-const IMAGE_URL = 'https://image.tmdb.org/t/p/w300'
 
 const homescreen = ({navigation}) => {
 
@@ -39,7 +37,7 @@ const homescreen = ({navigation}) => {
                 
         
                     <FlatList
-                        listKey='1'
+                        listKey='7'
                         ListHeaderComponent={
                             
                             <>
@@ -65,13 +63,13 @@ const homescreen = ({navigation}) => {
                                     
                                 </View>
                     
-                                <Upcoming_Movies get_detail_movie={get_detail_movie} upcomingMovies={upcomingMovies} />
+                                <Upcoming_Movies get_detail_movie={get_detail_movie} upcomingMovies={favouriteMovies} />
                                 
 
                                 <View style={styles.popularContainer}>
                                     <Text style={styles.popularText}>Popular</Text>
                                     <TouchableOpacity onPress={get_list_of_movies}>
-                                        <Text>See More</Text>
+                                        <Text style={{...styles.popularText, fontSize: 14}}>See More</Text>
                                     </TouchableOpacity>
                                 </View>
                                 
@@ -80,11 +78,14 @@ const homescreen = ({navigation}) => {
                                 </View>
 
                                 <View style={styles.popularContainer}>
-                                    <Text style={styles.popularText}>Action</Text>
+                                    <Text style={styles.popularText}>Comedy</Text>
+                                    <TouchableOpacity onPress={get_list_of_movies}>
+                                        <Text style={{...styles.popularText, fontSize: 14}}>See More</Text>
+                                    </TouchableOpacity>
                                 </View>
                                 
                                 <View style={{paddingVertical: 20,}}>
-                                    <Popular get_detail_movie={get_detail_movie} upcomingMovies={upcomingMovies} />
+                                    <Popular genre={'comedy'} get_detail_movie={get_detail_movie} upcomingMovies={upcomingMovies} />
                                 </View>
 
                                 </LinearGradient>

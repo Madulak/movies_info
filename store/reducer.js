@@ -1,4 +1,4 @@
-import { GET_CREDIT, GET_DETAIL_MOVIE, GET_SEARCH, GET_TRAILER, GET_UPCOMING_MOVIES } from "./actions";
+import { GET_CREDIT, GET_DETAIL_MOVIE, GET_SEARCH, GET_TRAILER, GET_UPCOMING_MOVIES, REMOVE_DATA } from "./actions";
 
 const initialState = {
     upcomingMovies: null,
@@ -6,6 +6,7 @@ const initialState = {
     trailer: null,
     search_movies: null,
     cast: null,
+    total_results: null,
 }
 
 const Reducer = (state = initialState, action) => {
@@ -34,12 +35,20 @@ const Reducer = (state = initialState, action) => {
             return {
                 ...state,
                 search_movies: action.search_movies,
+                total_results: action.total_results,
             }
 
         case GET_CREDIT:
             return {
                 ...state,
                 cast: action.cast
+            }
+
+        case REMOVE_DATA:
+            return {
+                ...state,
+                single_movie: action.single_movie,
+                trailer: action.trailer
             }
 
         default:

@@ -19,6 +19,7 @@ const search = ({navigation}) => {
     const [query, setQuery] = useState('');
     const dispatch = useDispatch();
     const movies = useSelector(state => state.movies.search_movies);
+    const number_of_movies_found = useSelector(state => state.movies.total_results);
 
     useEffect(() => {
         ref?.current?.focus();
@@ -63,7 +64,7 @@ const search = ({navigation}) => {
                             onChangeText={(e) => setQuery(e)}
                         />
                     </View>
-                    {movies !== null  && <Found_Search get_detail_movie={get_detail_movie} movies={movies} />}
+                    {movies !== null  && <Found_Search number_of_movies_found={number_of_movies_found} get_detail_movie={get_detail_movie} movies={movies} />}
                     
                 </LinearGradient>
             

@@ -16,6 +16,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import ListCast from '../components/list_cast';
 import Trailer from '../components/trailer';
 import MovieInfo from '../components/movie_info';
+import Loading from './loading';
 
 const { width, height } = Dimensions.get('window');
 
@@ -35,6 +36,11 @@ const movie_detail = ({route, navigation}) => {
         dispatch(movieActions.get_detail_movie(id))
     },[id])
 
+    const goBackHandler = () => {
+        dispatch(movieActions.remove_data())
+        navigation.goBack()
+    }
+
     return (
         <>
             {(single_movie && trailer) ?
@@ -48,7 +54,7 @@ const movie_detail = ({route, navigation}) => {
                             <>
                                 <ImageBackground blurRadius={1} source={{uri: single_movie.backdrop_path ? IMAGE_BASE_URL +single_movie.backdrop_path: IMAGE_BASE_URL + single_movie.poster_path }} style={styles.backdrop}>
                         <View style={styles.topButtons}>
-                            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconContainer}>
+                            <TouchableOpacity onPress={goBackHandler} style={styles.iconContainer}>
                                 <Ionicons name="arrow-back" size={24} color="black" />
                             </TouchableOpacity>
 
@@ -96,7 +102,7 @@ const movie_detail = ({route, navigation}) => {
 
                             {cast && 
                                 <View>
-                                    <Text>Cast</Text>
+                                    <Text style={styles.overviewText}>Cast</Text>
                                     <ListCast cast={cast} />
                                 </View>
                             }
@@ -110,9 +116,7 @@ const movie_detail = ({route, navigation}) => {
                     />
 
                 </LinearGradient> :
-                <View style={{flex: 1, justifyContent: 'center',}}>
-                    <Text>Looking for some Data</Text>
-                </View>
+                <Loading />
             }
         </>
     );

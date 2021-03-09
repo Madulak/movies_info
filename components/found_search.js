@@ -6,13 +6,14 @@ import { colors, IMAGE_BASE_URL } from '../config';
 import NoImage from './no_image_found';
 const { width, height } = Dimensions.get('window');
 
-const found_search = ({movies, get_detail_movie}) => {
+const found_search = ({movies, get_detail_movie, number_of_movies_found}) => {
 
     const scrollY = useRef(new Animated.Value(0)).current;
     const ITEM_SIZE = (height * 0.25) 
 
     return (
         <View style={{flex: 1,}}>
+            
             <Animated.FlatList
                 listKey='5'
                 showsVerticalScrollIndicator={false}

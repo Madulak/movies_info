@@ -2,10 +2,11 @@ import React from 'react';
 import { View, StyleSheet, Text, Dimensions, FlatList, Image, TouchableOpacity } from 'react-native';
 import { colors, IMAGE_BASE_URL } from '../config';
 import { MaterialIcons } from '@expo/vector-icons';
+import NoImage from './no_image_found';
 const { width, height } = Dimensions.get('window');
 
 
-const popular = ({upcomingMovies, get_detail_movie}) => {
+const popular = ({upcomingMovies, get_detail_movie, genre}) => {
 
     const daete = (data) => {
         // console.log('{}[]{}',data.split('-')[0])
@@ -18,7 +19,7 @@ const popular = ({upcomingMovies, get_detail_movie}) => {
             listKey='4'
             showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id.toString()}
-            data={upcomingMovies.slice(7, 12)}
+            data={genre ? upcomingMovies.slice(15, 19) : upcomingMovies.slice(5, 10)}
             // snapToInterval={(width * 0.55) + (width * 0.05)}
             // bounces={false}
             // decelerationRate={0}
@@ -27,7 +28,7 @@ const popular = ({upcomingMovies, get_detail_movie}) => {
                 return (
                     <TouchableOpacity onPress={() => get_detail_movie(item.id)} style={styles.itemContainer}>
                         <View style={styles.imageContainer}>
-                            <Image style={styles.image} source={{uri: IMAGE_BASE_URL + item.poster_path}} />
+                            {item.poster_path ? <Image style={styles.image} source={{uri: IMAGE_BASE_URL + item.poster_path}} />: <NoImage /> }
                         </View>
                         <View style={{backgroundColor: 'transparent', flex: 0.6,}} />
                         <View style={styles.contentContainer}>

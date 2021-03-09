@@ -6,6 +6,7 @@ export const GET_DETAIL_MOVIE = 'GET_DETAIL_MOVIE';
 export const GET_TRAILER = 'GET_TRAILER';
 export const GET_SEARCH = 'GET_SEARCH';
 export const GET_CREDIT = 'GET_CREDIT';
+export const REMOVE_DATA = 'REMOVE_DATA';
 
 const upcomingUrl = `${BASE_URL}/movie/latest?api_key=${api}&language=en-US&page=1`
 const comedy = 'https://api.themoviedb.org/3/search/multi?api_key=0ce3f1e2d7dcac36ca9b725dbf91075b&language=en-US&query=comedy&page=1&include_adult=false';
@@ -70,7 +71,7 @@ export const get_search = (query) => {
             console.log('[ERROR] ', error);
             throw error;
         }
-        dispatch({type: GET_SEARCH, search_movies: response.data.results})
+        dispatch({type: GET_SEARCH, search_movies: response.data.results, total_results: response.data.total_results})
     }
 }
 
@@ -87,3 +88,10 @@ export const get_credit = (id) => {
         dispatch({type: GET_CREDIT, cast: response.data.cast})
     }
 } 
+
+export const remove_data = () => {
+
+    return dispatch => {
+        dispatch({type: REMOVE_DATA, single_movie: null, trailer: null})
+    }
+}

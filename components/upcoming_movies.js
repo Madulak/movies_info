@@ -23,7 +23,7 @@ const upcoming_movies = ({upcomingMovies, get_detail_movie}) => {
                 // pagingEnabled
                 decelerationRate={0}
                 style={{flexGrow: 0}}
-                data={upcomingMovies.slice(3, 8)}
+                data={upcomingMovies}
                 renderItem={item => item.id.toSting()}
                 renderItem={({item, index}) => {
 
