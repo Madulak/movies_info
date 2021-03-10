@@ -14,9 +14,10 @@ const store = createStore(root, applyMiddleware(ReduxThunk));
 
 export default function App() {
   return (
+    //Redux Setup
     <Provider store={store}>
       <StatusBar style='dark' backgroundColor='white' />
-      <Navigation />
+      <Navigation />  
     </Provider>
   );
 }

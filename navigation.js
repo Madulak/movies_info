@@ -13,12 +13,13 @@ const navigation = () => {
     const Stack = createSharedElementStackNavigator();
 
     return (
+        //Navigation to Different Screens
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen options={{headerShown: false}} name='home' component={Homescreen} />
-                <Stack.Screen options={{headerShown: false}} name='movie detail' component={MovieDetail} />
-                <Stack.Screen options={{headerShown: false}} name='search' component={Search} />
-                <Stack.Screen options={{headerShown: false}} name='list' component={MovieList} />
+            <Stack.Navigator screenOptions={{headerShown: false}}>
+                <Stack.Screen name='home' component={Homescreen} />
+                <Stack.Screen name='movie detail' component={MovieDetail} />
+                <Stack.Screen name='search' component={Search} />
+                <Stack.Screen name='list' component={MovieList} />
             </Stack.Navigator>
         </NavigationContainer>
     );
